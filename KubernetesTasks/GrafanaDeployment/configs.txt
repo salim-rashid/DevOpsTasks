@@ -1,0 +1,10 @@
+kubectl create namespace grafana-monitoring-xfusion
+
+sudo vi grafana.yml
+
+kubectl create -f grafana.yml
+
+kubectl get deployment -w -n grafana-monitoring-xfusion
+
+kubectl get svc -n grafana-monitoring-xfusion
+
