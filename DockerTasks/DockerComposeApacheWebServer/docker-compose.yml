@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+    web:
+      container_name: httpd
+      image: httpd:latest
+      volumes:
+        #volume mapping is vice versa, the task failed.
+        - /opt/security:/usr/local/apache2/htdocs
+      ports:
+        - "3004:80"
+
+       
+
+
+        
+
