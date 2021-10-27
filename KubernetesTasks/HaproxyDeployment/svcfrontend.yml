@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+    namespace: haproxy-controller-datacenter
+    name: ingress-service-datacenter
+    labels:
+      run: haproxy-ingress
+spec:
+    type: NodePort
+    ports:
+    - port: 80
+      name: http
+      protocol: TCP
+      targetPort: 80
+      nodePort: 32456
+    - port: 443
+      name: https
+      protocol: TCP
+      targetPort: 443
+      nodePort: 32567
+    - port: 1024
+      name: stat
+      protocol: TCP
+      targetPort: 1024
+      nodePort: 32678 
+    selector:
+       run: haproxy-ingress

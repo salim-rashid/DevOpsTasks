@@ -1,0 +1,25 @@
+#Create namespace
+kubectl create namespace haproxy-controller-datacenter
+
+#Create service account
+kubectl create -f svcaccount.yml
+
+#Create a role
+kubectl create -f clusterrole.yml
+
+#Create cluster role binding
+kubectl create -f clusterrolebinding.yml
+
+#Create a deployment
+kubectl create -f deplyment.yml
+
+#Create a backend service
+kubectl create -f svcbackend.yml
+
+#Create a frontend service
+kubectl create -f svcfrontend.yml
+
+
+
+
+
