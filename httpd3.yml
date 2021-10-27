@@ -1,0 +1,43 @@
+---
+    - hosts: stapp02
+      become: true  
+      tasks:
+      - name: updating the system
+        yum: name='*' state=latest    
+
+      - name: install httpd package
+        yum: name=httpd update_cache=yes state=latest    
+
+      - name: ensure apache is started on boot
+        systemd:
+          name: httpd
+          state: started
+          enabled: yes
+
+      - name: install latest php
+        yum: name=php update_cache=yes state=latest
+
+      - name: create myroot folder 
+        file:
+          path: /var/www/html/myroot
+          state: directory
+          mode: 0755
+
+      - name: Change document root path in httpd.conf
+        replace:
+          path: /etc/httpd/conf/httpd.conf
+          regexp: "/var/www/html.$"
+          replace: '/var/www/html/myroot"'  
+
+      - name: copy php.info.j2 from jump_host
+        template:
+          src: /home/thor/playbooks/templates/phpinfo.php.j2
+          dest: /var/www/html/myroot/phpinfo.php
+          owner: apache
+          group: apache
+          mode: "0755"
+
+      - name: restart apache web server
+        systemd:
+         name: httpd
+         state: restarted
