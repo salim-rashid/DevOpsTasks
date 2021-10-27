@@ -1,0 +1,39 @@
+Adding a role to a playbook
+---
+- hosts: stapp03
+  roles:
+    - httpd
+
+###################################################################3
+index.html.j2
+
+vi /home/thor/ansible/role/httpd/templates/index.html.j2
+
+This file was created using Ansible on {{ inventory_hostname }}
+
+####################################################################
+vi /home/thor/ansible/role/httpd/tasks/main.yml
+---
+  - name: copy the template to stapp01
+    import_tasks: copy_template.yml
+
+########################################################################
+vi /home/thor/ansible/role/httpd/tasks/copy_template.yml
+
+---
+   - template:
+       src: /home/thor/ansible/role/httpd/templates/index.html.j2
+       dest: /var/www/html/index.html 
+       mode: 0755
+       owner: {{ stapp01_user }}
+       group: {{ stapp01_group }}
+
+######################################################################
+Add user variable
+
+stapp01_user: tony
+stapp02_user: steve
+stapp03_user: banner
+stapp01_group: tony
+stapp02_group: steve
+stapp03_group: banner
